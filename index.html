@@ -1,17 +1,69 @@
 <!doctype html>
-<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#101820"><meta name="description" content="Мобильная штабная стратегия на вымышленной карте"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="style.css"><title>Оперативный штаб 0.4</title></head>
-<body><header><div class="brand"><div class="brandmark">Ш</div><div><b>ОПЕРАТИВНЫЙ ШТАБ</b><small>УЧЕБНАЯ СТРАТЕГИЯ · ВЕРСИЯ 0.4</small></div></div><button id="help" class="btn muted">Справка</button></header>
-<main><section class="missionbar"><div><span class="eyebrow">УЧЕБНЫЙ СЦЕНАРИЙ</span><h1 id="missionTitle">Миссия 1. Паводок</h1><p id="missionDesc">Организуйте эвакуацию и доставку ресурсов в изолированные населённые пункты.</p></div><select id="missionSelect" aria-label="Выбрать миссию"><option value="flood">Миссия 1 · Паводок</option><option value="blackout">Миссия 2 · Энергосбой</option></select></section>
-<section class="metrics"><div><small>Ресурсы</small><b id="resources">76%</b><i><u id="resourcesBar" style="width:76%"></u></i></div><div><small>Координация</small><b id="coord">62%</b><i><u id="coordBar" style="width:62%"></u></i></div><div><small>Готовность региона</small><b id="readiness">68%</b><i><u id="readinessBar" style="width:68%"></u></i></div><div><small>Ход</small><b id="turn">1</b></div></section>
-<nav class="tabs"><button class="tab active" data-tab="mapPanel">Карта</button><button class="tab" data-tab="forcesPanel">Группы</button><button class="tab" data-tab="tasksPanel">Задачи</button><button class="tab" data-tab="logPanel">Журнал</button></nav>
-<section id="mapPanel" class="panelview active"><div class="maptitle"><div><span class="eyebrow">СХЕМА УЧЕБНОГО РАЙОНА</span><h2>Оперативная обстановка</h2></div><div class="maptools"><button id="zoomOut" class="tool">−</button><button id="zoomIn" class="tool">+</button><button id="resetMap" class="tool">⟲</button></div></div>
-<div class="legend"><span><i class="dot red"></i> Своя сторона</span><span><i class="dot blue"></i> Условная сторона Б</span><span><i class="dot yellow"></i> Объект внимания</span></div>
-<div id="mapViewport" class="mapviewport"><div id="mapCanvas" class="mapcanvas"><svg class="terrain" viewBox="0 0 900 650" preserveAspectRatio="none"><defs><pattern id="grid" width="75" height="65" patternUnits="userSpaceOnUse"><path d="M75 0H0V65" fill="none" stroke="#8c9b8c" stroke-opacity=".34" stroke-width="1"/></pattern></defs><rect width="900" height="650" fill="#aeb9a0"/><path d="M-30 480 C130 390 180 540 330 430 S570 350 930 460 L930 690H-30Z" fill="#83a9b7"/><path d="M-20 80 C150 130 230 20 360 100 S600 160 930 70" fill="none" stroke="#d5e0e4" stroke-width="38"/><path d="M-20 80 C150 130 230 20 360 100 S600 160 930 70" fill="none" stroke="#779ca9" stroke-width="2"/><path d="M60 0L260 650M0 300L900 250M400 0L500 650M700 0L620 650" fill="none" stroke="#e7dfc7" stroke-width="12"/><path d="M60 0L260 650M0 300L900 250M400 0L500 650M700 0L620 650" fill="none" stroke="#9d9277" stroke-width="2" stroke-dasharray="12 8"/><path d="M90 180l45-25 55 15 18 50-38 32-58-8-30-30zM560 430l45-35 65 10 24 50-42 36-65-9zM650 130l35-25 45 20 10 50-42 20-48-25z" fill="#829477" stroke="#64765e" stroke-width="3"/><g fill="#59634f" font-size="16" font-family="sans-serif"><text x="85" y="270">ЛЕСНОЙ МАССИВ</text><text x="620" y="510">ВОСТОЧНЫЙ УЧАСТОК</text><text x="360" y="220">ЦЕНТРАЛЬНЫЙ РАЙОН</text></g><rect width="900" height="650" fill="url(#grid)"/></svg><div id="mapLabels"></div><div id="markers"></div></div></div>
-<div class="maphint">Перемещение карты: перетаскивайте одним пальцем. Масштаб: сведите или разведите два пальца либо используйте кнопки +/−. Нажмите на знак, чтобы выбрать объект.</div>
-<div class="commandbox"><div><span class="eyebrow">ВЫБРАННЫЙ ОБЪЕКТ</span><h3 id="selectedName">Центральный пункт</h3><p id="selectedInfo">Выберите знак на карте или группу.</p></div><div class="commandrow"><label>Группа <select id="groupSelect"></select></label><label>Действие <select id="actionSelect"><option value="move">Передислоцировать к объекту</option><option value="support">Оказать помощь</option><option value="supply">Доставить ресурсы</option><option value="observe">Проверить обстановку</option></select></label><button id="execute" class="btn primary">Выполнить</button></div></div>
-</section>
-<section id="forcesPanel" class="panelview"><span class="eyebrow">СОСТАВ УЧЕБНЫХ ГРУПП</span><h2>Группы и условные знаки</h2><div id="groupsList" class="cards"></div><div class="note">Цвета и символы обозначают игровые команды и роли. Это авторская игровая легенда, а не официальная система тактических знаков.</div></section>
-<section id="tasksPanel" class="panelview"><span class="eyebrow">ПЛАН СЦЕНАРИЯ</span><h2>Задачи миссии</h2><div id="tasksList" class="cards"></div></section>
-<section id="logPanel" class="panelview"><span class="eyebrow">ХРОНОЛОГИЯ</span><h2>Журнал штаба</h2><div id="journal" class="journal"></div><button id="export" class="btn muted">Экспорт журнала JSON</button></section>
-<section class="turnbar"><div><b>Завершить ход</b><small>Сценарий обновит события и показатели.</small></div><button id="nextTurn" class="btn primary">Следующий ход →</button></section><footer>Вымышленная учебная карта. Без реальных координат, боевых задач и моделей применения вооружённых сил.</footer></main>
-<div id="modal" class="modal hidden"><div class="modalcard"><button id="closeHelp" class="close">×</button><span class="eyebrow">СПРАВКА</span><h2>Управление картой</h2><p>Выберите сценарий, затем знак группы или объект. Выберите действие и выполните приказ. В конце хода обновляются ресурсы, координация и готовность региона.</p><p>Карта поддерживает перетаскивание, масштабирование кнопками и жестом двумя пальцами. Сторона Б является условной игровой командой для соревновательных и учебных событий.</p><button id="okHelp" class="btn primary">Понятно</button></div></div><script src="app.js"></script><script>if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));</script></body></html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101820">
+<title>Оперативный штаб — Стратегия</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><div class="brandmark">Ш</div><div><b>ОПЕРАТИВНЫЙ ШТАБ</b><small>СТРАТЕГИЧЕСКИЙ СИМУЛЯТОР · v0.5</small></div></div>
+    <div class="top-actions"><span class="pill live"><i></i> СЦЕНАРИЙ АКТИВЕН</span><button class="iconbtn" id="helpBtn" aria-label="Справка">?</button></div>
+  </header>
+  <main class="layout">
+    <aside class="left panel">
+      <div class="panel-head"><span>СЦЕНАРИЙ</span><button class="textbtn" id="missionsBtn">СМЕНИТЬ</button></div>
+      <h1 id="missionTitle">Борьба за рубеж</h1>
+      <p class="muted" id="missionDesc">Две вымышленные коалиции конкурируют за контроль над ключевыми секторами региона.</p>
+      <div class="turnbox"><div><small>ХОД</small><strong id="turnNum">01</strong></div><div class="turnline"></div><div><small>ФАЗА</small><strong id="phase">Красные</strong></div></div>
+      <div class="scoreboard">
+        <div class="score red"><span class="dot"></span><div><small>КРАСНАЯ СТОРОНА</small><b id="redScore">0</b><small>очков контроля</small></div></div>
+        <div class="score blue"><span class="dot"></span><div><small>СИНЯЯ СТОРОНА</small><b id="blueScore">0</b><small>очков контроля</small></div></div>
+      </div>
+      <div class="section-title">ВАШИ ФОРМИРОВАНИЯ</div>
+      <div id="unitList" class="unit-list"></div>
+      <div class="section-title">ВЫБРАННЫЙ СЕКТОР</div>
+      <div id="sectorInfo" class="sector-info"><b>Сектор не выбран</b><span class="muted">Выберите клетку на карте.</span></div>
+      <div class="left-bottom"><button class="secondary full" id="endTurn">ЗАВЕРШИТЬ ХОД <span>→</span></button><small class="muted">Ходы чередуются. Решения влияют на контроль и снабжение.</small></div>
+    </aside>
+    <section class="center">
+      <div class="map-toolbar panel">
+        <div class="map-title"><b>КАРТА ОПЕРАЦИОННОГО РАЙОНА</b><small>СЕТКА 8 × 6 · УСЛОВНАЯ ТЕРРИТОРИЯ</small></div>
+        <div class="map-tools"><button class="iconbtn" id="zoomOut">−</button><button class="iconbtn" id="zoomIn">+</button><button class="iconbtn" id="resetView" title="Сбросить вид">⌂</button><button class="iconbtn" id="legendBtn" title="Легенда">☷</button></div>
+      </div>
+      <div class="map-frame panel" id="mapFrame">
+        <div class="map-watermark">СХЕМА · НЕ В МАСШТАБЕ</div>
+        <div id="mapViewport"><div id="map" class="map"></div></div>
+        <div class="map-coords top">А&nbsp;&nbsp;&nbsp;&nbsp;Б&nbsp;&nbsp;&nbsp;&nbsp;В&nbsp;&nbsp;&nbsp;&nbsp;Г&nbsp;&nbsp;&nbsp;&nbsp;Д&nbsp;&nbsp;&nbsp;&nbsp;Е&nbsp;&nbsp;&nbsp;&nbsp;Ж&nbsp;&nbsp;&nbsp;&nbsp;З</div>
+        <div class="map-coords side">1<br>2<br>3<br>4<br>5<br>6</div>
+        <div class="map-hint">Выберите своё формирование → выберите соседний сектор для перемещения</div>
+      </div>
+      <div class="map-footer"><span><i class="legenddot redbg"></i> Красная сторона</span><span><i class="legenddot bluebg"></i> Синяя сторона</span><span><i class="legenddot neutralbg"></i> Нейтральный сектор</span><span id="zoomLabel">100%</span></div>
+    </section>
+    <aside class="right panel">
+      <div class="panel-head"><span>ПАНЕЛЬ УПРАВЛЕНИЯ</span><span class="badge">КОМАНДОВАНИЕ</span></div>
+      <div class="command-card">
+        <div class="command-icon">⌖</div><div><b>Приказы</b><small>Доступные действия</small></div>
+      </div>
+      <button class="action" id="moveBtn"><span class="action-icon">↗</span><span><b>Переместить</b><small>В соседний свободный сектор</small></span><kbd>M</kbd></button>
+      <button class="action" id="supportBtn"><span class="action-icon">＋</span><span><b>Поддержать сектор</b><small>Повысить устойчивость контроля</small></span><kbd>S</kbd></button>
+      <button class="action" id="supplyBtn"><span class="action-icon">▤</span><span><b>Восстановить ресурс</b><small>Пополнить запас выбранной группы</small></span><kbd>R</kbd></button>
+      <div class="section-title">ОБСТАНОВКА</div>
+      <div class="statline"><span>Снабжение</span><b id="supplyStat">72%</b></div><div class="bar"><i id="supplyBar" style="width:72%"></i></div>
+      <div class="statline"><span>Координация</span><b id="coordStat">64%</b></div><div class="bar cyan"><i id="coordBar" style="width:64%"></i></div>
+      <div class="section-title">ЖУРНАЛ СОБЫТИЙ</div>
+      <div id="log" class="log"></div>
+      <button class="textbtn full" id="exportBtn">ЭКСПОРТ ЖУРНАЛА JSON ↓</button>
+    </aside>
+  </main>
+  <footer><span>УЧЕБНАЯ ИГРА · ВЫМЫШЛЕННЫЕ СТОРОНЫ И ТЕРРИТОРИЯ</span><span>СОХРАНЕНИЕ В ЭТОМ БРАУЗЕРЕ</span></footer>
+</div>
+<div class="modal-backdrop" id="modal">
+ <div class="modal panel"><button class="modal-close" id="closeModal">×</button><div id="modalContent"></div></div>
+</div>
+<script src="app.js"></script>
+</body></html>
